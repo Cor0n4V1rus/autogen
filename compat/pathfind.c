@@ -311,28 +311,31 @@ static char *
 make_absolute( char const * string, char const * dot_path )
 {
     char * result;
-    int result_len;
+    int base_len;
 
-    if (!dot_path || *string == DIRCH) {
-        result = strdup( string );
+    /* just duplicate the path if it starts with a "DIRCH" */
+    if (*string == DIRCH) {
+        return strdup( string );
+
+    /*
+     * If there is a non-empty "dot_path", it must be prepended to the "string"
+     */
+    if ((dot_path != NULL) && (dot_path[0] != '\0')) {
+        base_len = strlen( dot_path );
+        result = malloc( 2 + base_len + strlen( string ) );
+        memcpy( result, dot_path, base_len + 1 );
+
+        if (result[base_len - 1] != DIRCH)
+            result[base_len++] = DIRCH;
+
     } else {
-        if (dot_path && dot_path[0]) {
-            result = malloc( 2 + strlen( dot_path ) + strlen( string ) );
-            strcpy( result, dot_path );
-            result_len = (int)strlen(result);
-            if (result[result_len - 1] != DIRCH) {
-                result[result_len++] = DIRCH;
-                result[result_len] = '\0';
-            }
-        } else {
-            result = malloc( 3 + strlen( string ) );
-            result[0] = '.'; result[1] = DIRCH; result[2] = '\0';
-            result_len = 2;
-        }
-
-        strcpy( result + result_len, string );
+        /* Insert "./" in front of "string" */
+        result = malloc( 3 + strlen( string ) );
+        result[0] = '.'; result[1] = DIRCH;
+        base_len = 2;
     }
 
+    strcpy( result + base_len, string );
     return result;
 }
 

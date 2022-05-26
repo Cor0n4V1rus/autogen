@@ -72,3 +72,5 @@ libtool
 stamp*
 test-*.log
 /.no-clone
+*.orig
+*.rej

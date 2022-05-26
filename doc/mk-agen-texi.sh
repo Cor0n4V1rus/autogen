@@ -101,9 +101,10 @@ setup_exports()
 
   PATH=${top_builddir}/columns:${PATH}
   timer=`expr ${AG_TIMEOUT} '*' 5`
-  d=`find ${top_builddir}/autoopts -type f -name libopts.a -print`
-  test -f "$d" || die "Cannot locate libopts.a"
-  LIBS="$d ${LIBS}"
+  d=`find ${top_builddir}/autoopts -type f \
+	-name libopts.a -o -name libopts.so | head -n 1`
+  LIBS="-L$(dirname "$d") -lopts ${LIBS}"
+  LD_LIBRARY_PATH="$(dirname "$d"):$LD_LIBRARY_PATH"
 
   eval `${EGREP} '^AG_[A-Z_]*' ${top_srcdir}/VERSION`
 

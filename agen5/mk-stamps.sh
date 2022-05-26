@@ -194,8 +194,15 @@ make_exprini()
     test ${#DEBUG_ENABLED} -gt 0 && \
         printf '%-15s %s\n' assign 'debug-enabled = true' >&3
 
-    for f in func*.c exp*.c agShell.c
-    do echo input ${f} ; done >&3
+    funcCase_done=false
+    for f in funcCase.c func*.c exp*.c agShell.c
+    do
+        test X${f} = XfuncCase.c && {
+            $funcCase_done && continue
+            funcCase_done=true
+        }
+        echo input ${f}
+    done >&3
     exec 3>&-
 
     echo ${GDexe} load=expr.cfg

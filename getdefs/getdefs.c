@@ -193,7 +193,7 @@ buildPreamble(char ** def_scan_p, char ** out_scan_p, char const * fname, int li
     char * def_scan = *def_scan_p;
     char * out_scan = *out_scan_p;
 
-    char   def_bf[  MAXNAMELEN * 2 + 8 ];
+    char   def_bf[  MAXNAMELEN * 2 + sizeof(long) ];
     char   name_bf[ MAXNAMELEN ];
     char * def_str  = def_bf;
     char * if_text  = NULL;

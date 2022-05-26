@@ -732,7 +732,8 @@ prt_vendor_opts(tOptions * opts, char const * title)
                 continue;
 
             l = strlen(od->pz_Name);
-            if (l > nmlen)  nmlen = l;
+            if ((l <= AO_NAME_LIMIT) && (l > nmlen))
+                nmlen = l;
         } while (od++, (--ct > 0));
 
         snprintf(vfmt, sizeof(vfmt), vfmtfmt, (unsigned int)nmlen + 4);

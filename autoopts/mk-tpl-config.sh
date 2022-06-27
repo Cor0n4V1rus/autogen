@@ -20,19 +20,17 @@
 ##  4379e7444a0e2ce2b12dd6f5a52a27a4d02d39d247901d3285c88cf0d37f477b  COPYING.lgplv3
 ##  13aa749a5b0a454917a944ed8fffc530b784f5ead522b1aacaf4ec8aa55a6239  COPYING.mbsd
 
-prog=`basename $0 .sh`
-
 die() {
     echo "$prog failure:  $*"
     kill -TERM $progpid
     sleep 1
     exit 1
-}
+} 1>&2
 
 init() {
     PS4='+tpc-${FUNCNAME:-=}-$LINENO> '
     progpid=$$
-    prog=`basename $0`
+    prog=`basename $0 .sh`
     progdir=`\cd \`dirname $0\` >/dev/null ; pwd`
     readonly progpid progdir prog
 
@@ -47,10 +45,8 @@ init() {
 }
 
 collect_src() {
-    exec 8>&1 1>&2
     cd ${builddir}
-    sentinel_file=${1} ; shift
-    cat 1>&8 <<- _EOF_
+    cat <<- _EOF_
 	#define  AUTOOPTS_INTERNAL 1
 	#include "config.h"
 	#include "autoopts/project.h"
@@ -62,8 +58,8 @@ collect_src() {
 
     for f in "$@"
     do  test "X$f" = "Xproject.h" || \
-            printf '#include "%s"\n' $f
-    done 1>&8
+            printf '#include "%s"\n' "$f"
+    done
 }
 
 extension_defines() {
@@ -95,7 +91,7 @@ extension_defines() {
 fix_scripts() {
     for f in ${srcdir}/tpl/*.sh ${srcdir}/tpl/*.pl
     do
-        d=`basename $f | sed 's/\.[sp][hl]$//'`
+        d=${f%.*}
         st=`sed 1q $f`
 
         case "$st" in
@@ -122,6 +118,7 @@ fix_scripts() {
 }
 
 find_shell_prog() {
+    test -x "${POSIX_SHELL}" && return 0
     case `uname -s` in
     SunOS )
       while : ; do
@@ -148,7 +145,9 @@ find_cat_prog() {
         test -x "${POSIX_CAT}" && break
         die "cannot locate 'cat' command"
     done
+}
 
+set_noop_conversions() {
     formats='man mdoc texi'
     for f in $formats
     do
@@ -215,10 +214,29 @@ find_libguiledir() {
     guile_scm_h=`find ${libguiledir} -type f -name __scm.h`
 }
 
-init
-collect_src "$@" > ${builddir}/libopts.c
-extension_defines
-fix_scripts
-find_shell_prog
-find_cat_prog
-touch ${sentinel_file}
+# main:
+{
+    sentinel_file=${1} ; shift
+    src_list="$*"
+    init
+    extension_defines
+    fix_scripts
+    find_shell_prog
+    find_cat_prog
+    set_noop_conversions
+    touch ${sentinel_file}
+    collect_src "$src_list" > ${builddir}/libopts.c
+    exit 0
+}
+
+## Local Variables:
+## Mode: shell-script
+## indent-tabs-mode:       nil
+## sh-basic-offset:          4
+## sh-indent-after-do:       4
+## sh-indentation:           4
+## sh-indent-for-case-label: 0
+## sh-indent-for-case-alt:   4
+## End:
+##
+# end of mk-tpl-config.sh

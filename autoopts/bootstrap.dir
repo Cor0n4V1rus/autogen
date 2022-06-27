@@ -47,33 +47,33 @@ add_files_to_mf() {
         sfil=''
         pdta="autoopts.m4${nl}tpl/usage.tlib${nl}"
         edta="bootstrap.dir${nl}autoopts-config.in${nl}autogen.map${nl}"
-        edta="${edta}mk-tpl-config.sh${nl}mk-autoopts-pc.in${nl}"
-        edta="${edta}install-hook.sh${nl}po${nl}"
+        edta+="mk-tpl-config.sh${nl}mk-autoopts-pc.in${nl}"
+        edta+="install-hook.sh${nl}po${nl}"
 
         for f in man mdoc texi
         do
             for g in man mdoc texi
             do
-                sfil=${sfil}tpl/${f}2${g}${nl}
+                sfil+=tpl/${f}2${g}${nl}
             done
         done
 
         for f in tpl/*.*
         do
             case $f in
-            ( tpl-config* ) : ;;
+            ( *tpl-config.tlib | *tpl/usage* )
+                : # omit build time constructed files
+                ;;
 
             ( *.in | *.pl | *.sh )
+                edta+=${f}${nl}    # distributed file
                 g=${f%.??}
                 g=${g//-tlib/.tlib}
                 ndst+=${g}${nl}    # installed file
-                edta+=${f}${nl}    # distributed file
                 ;;
 
-            ( *tpl-config.tlib | *tpl/usage* ) : ;;
-
             ( *.tlib | *.tpl | *.def | *.lic | *.pm )
-                pdta=${pdta}${f}${nl} ;; # installed & distributed file
+                pdta+=${f}${nl} ;; # installed & distributed file
             esac
         done
 
@@ -84,8 +84,7 @@ add_files_to_mf() {
     )
 
     eval "$tmpl"
-    gnulib_hdr=''
-    gnulib_hdr+='gettext.h '
+    gnulib_hdr='gettext.h '
     gnulib_hdr+='intprops.h '
     gnulib_hdr+='parse-duration.h '
     gnulib_hdr+='stdnoreturn.in.h '

@@ -142,7 +142,7 @@ AC_DEFUN([INVOKE_AG_MACROS_LAST],[
   fi
 
   AC_CACHE_CHECK([for static inline], [snv_cv_static_inline], [
-  AC_TRY_COMPILE([static inline foo(bar) int bar; { return bar; }],
+  AC_TRY_COMPILE([static inline int foo(bar) int bar; { return bar; }],
     [return foo(0);],
     [snv_cv_static_inline='static inline'],
     [snv_cv_static_inline='static'])
@@ -457,7 +457,7 @@ int main (int argc, char ** argv) {
    char zRej@<:@@:>@ = reject;
    char zAcc@<:@@:>@ = "a-ok-eject";
    return strcspn( zAcc, zRej ) - 5;
-}] )]
+}] )],
     [ag_cv_run_strcspn=yes],[ag_cv_run_strcspn=no],[ag_cv_run_strcspn=no]
   ) # end of RUN_IFELSE
   ]) # end of AC_CACHE_VAL for ag_cv_run_strcspn

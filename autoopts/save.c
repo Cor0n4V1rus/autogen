@@ -110,7 +110,7 @@ find_file_name(tOptions * opts, int * p_free_name)
      */
     if (stat(res, &stBuf) != 0) do {
         char z[AG_PATH_MAX];
-        char * dirchp;
+        const char * dirchp;
 
         /*
          *  IF we could not, check to see if we got a full
@@ -809,7 +809,7 @@ optionSaveFile(tOptions * opts)
 
         if (dir == NULL)
             break;
-        temp_str = strchr(dir, '>');
+        temp_str = (char *)strchr(dir, '>');
         if (temp_str == NULL)
             break;
         if (temp_str[1] == '>')

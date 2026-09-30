@@ -106,7 +106,7 @@ make_quote_str(char const * str)
     char * res;
 
     for (;;) {
-        char * p = strchr(scan, '$');
+        const char * p = strchr(scan, '$');
         if (p == NULL)
             break;
         sz++;
@@ -117,7 +117,7 @@ make_quote_str(char const * str)
     scan = res;
 
     for (;;) {
-        char * p = strchr(str, '$');
+        const char * p = strchr(str, '$');
 
         if (p == NULL)
             break;

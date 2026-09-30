@@ -1153,7 +1153,7 @@ prt_prog_detail(tOptions * opts)
      */
     if (displayEnum) {
         int        ct     = opts->optCt;
-        int        optNo  = 0;
+      /*int        optNo  = 0;*/
         tOptDesc * od     = opts->pOptDesc;
 
         fputc(NL, option_usage_fp);
@@ -1164,7 +1164,7 @@ prt_prog_detail(tOptions * opts)
             case OPARG_TYPE_MEMBERSHIP:
                 (*(od->pOptProc))(OPTPROC_EMIT_USAGE, od);
             }
-        } while (od++, optNo++, (--ct > 0));
+        } while (od++, /*optNo++,*/ (--ct > 0));
     }
 
     /*

@@ -58,7 +58,7 @@ check_existence(teOptFileType ftype, tOptions * pOpts, tOptDesc * pOD)
     default:
     case FTYPE_MODE_MAY_EXIST:
     {
-        char * p = strrchr(fname, DIRCH);
+        char * p = (char *)strrchr(fname, DIRCH);
         size_t l;
 
         if (p == NULL)

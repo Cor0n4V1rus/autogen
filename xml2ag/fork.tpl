@@ -125,7 +125,7 @@ become_child(int * fd, char const * in_file)
         if (in_file == NULL)
             in_file = "stdin";
         else {
-            char * pz = strrchr(in_file, '.');
+            char * pz = (char *)strrchr(in_file, '.');
             if (pz != NULL) {
                 in_file = pz = strdup(in_file);
                 pz = strrchr(pz, '.');
@@ -155,7 +155,7 @@ fork_ag(char const * in_file)
 
         {
             char * pz = malloc(strlen( xml2agOptions.pzProgPath ) + 7);
-            char * p  = strrchr(xml2agOptions.pzProgPath, '/');
+            const char * p  = strrchr(xml2agOptions.pzProgPath, '/');
 
             if (p == NULL) {
                 strcpy(pz, zAg);

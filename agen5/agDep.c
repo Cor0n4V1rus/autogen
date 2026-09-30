@@ -298,7 +298,7 @@ tidy_dep_file(void)
      * the same-named dependency file, renaming might fail. Guard against it.
      */
     do  {
-        char * pze = strrchr(dep_file, '-');
+        const char * pze = strrchr(dep_file, '-');
         char * pzn;
         size_t len;
 

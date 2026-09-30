@@ -401,8 +401,8 @@ load_pseudo_mac(char const * text, char const * fname)
         switch (trans) {
         case PM_TR_SKIP_ED_MODE:
         {
-            char * pzEnd = strstr(text + 3, PSEUDO_MAC_MODE_MARK);
-            char * pzNL  = strchr(text + 3, NL);
+            const char * pzEnd = strstr(text + 3, PSEUDO_MAC_MODE_MARK);
+            const char * pzNL  = strchr(text + 3, NL);
             if ((pzEnd == NULL) || (pzNL < pzEnd))
                 BAD_MARKER(PSEUDO_MAC_BAD_MODE);
 

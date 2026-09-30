@@ -370,7 +370,7 @@ get_define_str(char const * de_name, bool check_env)
 
         while (ct-- > 0) {
             char const * pz   = *(ppz++);
-            char * pzEq = strchr(pz, '=');
+            char * pzEq = (char *)strchr(pz, '=');
             int    res;
 
             if (pzEq != NULL)

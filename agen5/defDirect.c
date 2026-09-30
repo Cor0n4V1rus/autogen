@@ -767,7 +767,7 @@ doDir_line(directive_enum_t id, char const * dir, char * scan_next)
     if (*(dir++) != '"')
         return scan_next;
     {
-        char * pz = strchr(dir, '"');
+        char * pz = (char *)strchr(dir, '"');
         if (pz == NULL)
             return scan_next;
         *pz = NUL;

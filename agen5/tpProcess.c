@@ -401,7 +401,7 @@ open_output(out_spec_t * spec)
         char const * def_file = OPT_ARG(BASE_NAME);
         char   z[AG_PATH_MAX];
         const char * pst = strrchr(def_file, '/');
-        char * end;
+        const char * end;
 
         pst = (pst == NULL) ? def_file : (pst + 1);
 

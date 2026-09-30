@@ -81,7 +81,7 @@ optionUnstackArg(tOptions * opts, tOptDesc * od)
          */
         for (i = 0, dIdx = 0, ct = arg_list->useCt; --ct >= 0; i++) {
             char const * pzSrc = arg_list->apzArgs[ i ];
-            char *       pzEq  = strchr(pzSrc, '=');
+            char *       pzEq  = (char *)strchr(pzSrc, '=');
             int          res;
 
 

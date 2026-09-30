@@ -453,9 +453,9 @@ compar_defname(const void * p1, const void * p2)
 MOD_LOCAL int
 compar_text(const void * p1, const void * p2)
 {
-    char * pz1 = strstr(*(char const * const *)p1, zNameTag);
+    const char * pz1 = strstr(*(char const * const *)p1, zNameTag);
     char * pe1;
-    char * pz2 = strstr(*(char const * const *)p2, zNameTag);
+    const char * pz2 = strstr(*(char const * const *)p2, zNameTag);
     char * pe2;
     int    res;
 
@@ -474,13 +474,13 @@ compar_text(const void * p1, const void * p2)
     }
 
     pz1 += sizeof(zNameTag)-1;
-    pe1 = strchr(pz1, '\'');
+    pe1 = (char *)strchr(pz1, '\'');
 
     if (pe1 == NULL)
         die(GETDEFS_EXIT_USAGE_ERROR, zBogusDef, *(char const * const *)p1);
 
     pz2 += sizeof(zNameTag)-1;
-    pe2 = strchr(pz2, '\'');
+    pe2 = (char *)strchr(pz2, '\'');
 
     if (pe2 == NULL)
         die(GETDEFS_EXIT_USAGE_ERROR, zBogusDef, *(char const * const *)p2);

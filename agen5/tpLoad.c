@@ -239,7 +239,7 @@ find_file(char const * in_name,
      *  Check for immediate access once again.
      */
     {
-        char * bf = strrchr(in_name, '/');
+        const char * bf = strrchr(in_name, '/');
         bf = (bf != NULL) ? strchr(bf, '.') : strchr(in_name,  '.');
         no_suffix = (bf == NULL);
     }
@@ -249,12 +249,12 @@ find_file(char const * in_name,
      *  If not NULL, referring_tpl becomes an allocated directory name.
      */
     if (referring_tpl != NULL) {
-        char * pz = strrchr(referring_tpl, '/');
+        char * pz = (char *)strrchr(referring_tpl, '/');
         if (pz == NULL)
             referring_tpl = NULL;
         else {
             AGDUPSTR(referring_tpl, referring_tpl, "refer tpl");
-            pz = strrchr(referring_tpl, '/');
+            pz = (char *)strrchr(referring_tpl, '/');
             *pz = NUL;
         }
     }
